@@ -1,0 +1,33 @@
+{
+  "name": "koa-webpack-dev-middleware",
+  "version": "1.0.0",
+  "description": "Webpack dev middleware for koa2.x with typescript. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tqma113/koa-webpack-dev-middleware.git"
+  },
+  "keywords": [
+    "koa",
+    "webpack",
+    "dev",
+    "middleware",
+    "typescript"
+  ],
+  "author": "Ma Tianqi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tqma113/koa-webpack-dev-middleware/issues"
+  },
+  "homepage": "https://github.com/tqma113/koa-webpack-dev-middleware#readme",
+  "devDependencies": {
+    "@types/koa": "^2.0.50",
+    "@types/node": "^12.7.9",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.6.3"
+  }
+}
