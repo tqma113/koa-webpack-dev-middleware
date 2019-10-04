@@ -3,7 +3,7 @@ import webpack from 'webpack'
 import WebpackDevMiddleware from 'webpack-dev-middleware'
 import { ServerResponse } from 'http'
 
-const wdm = async (compiler: webpack.Compiler, ops: WebpackDevMiddleware.Options) => {
+const wdm = async (compiler: webpack.Compiler, ops?: WebpackDevMiddleware.Options) => {
   const devMiddleware = WebpackDevMiddleware(compiler, ops)
 
   const middleware: Koa.Middleware = (context, next) => {
