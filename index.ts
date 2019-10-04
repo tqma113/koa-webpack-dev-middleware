@@ -1,49 +1,88 @@
+import path from 'path'
 import Koa from 'koa'
 import webpack from 'webpack'
-import WebpackDevMiddleware from 'webpack-dev-middleware'
-import { ServerResponse } from 'http'
+import MemoryFS from 'memory-fs'
+import { parse } from 'url'
+import mime from 'mime'
 
-const wdm = async (compiler: webpack.Compiler, ops?: WebpackDevMiddleware.Options) => {
-  const devMiddleware = WebpackDevMiddleware(compiler, ops)
+export interface Options {
+  index?: string
+}
 
-  const middleware: Koa.Middleware = (context, next) => {
-    // wait for webpack-dev-middleware to signal that the build is ready
-    const ready = new Promise((resolve, reject) => {
-      compiler.hooks.failed.tap('KoaWebpack', (error) => {
-        reject(error);
-      });
+const NonCharsetFileTypes = /\.(wasm|usdz)$/;
 
-      devMiddleware.waitUntilValid(() => {
-        resolve(true);
-      });
-    });
-    // tell webpack-dev-middleware to handle the request
-    const init = new Promise((resolve) => {
-      const res: ServerResponse = Object.assign(context.res, {
-        end: (content: any) => {
-          // eslint-disable-next-line no-param-reassign
-          context.body = content;
-          resolve();
-        },
-        getHeader: context.get.bind(context),
-        setHeader: context.set.bind(context),
-        locals: context.state
-      })
+const wdm = (compiler: webpack.Compiler, ops: Options = {}) => {
+  const mfs = new MemoryFS()
 
-      devMiddleware(
-        context.req,
-        res,
-        () => resolve(next())
-      );
-    });
+  compiler.outputFileSystem = mfs
 
-    return Promise.all([ready, init]);
+  const outputPath = compiler.outputPath
+  const publicPath = compiler.options &&
+    compiler.options.output &&
+    compiler.options.output.publicPath;
+  const watching = compiler.watch({}, (err) => {
+    console.log(err)
+  })
+
+  const middleware: Koa.Middleware = async (ctx, next) => {
+    const localPrefix = parse(publicPath || '/', false, true)
+    const urlObj = parse(ctx.request.url)
+    let filename: string = ''
+
+    if (typeof urlObj.pathname === 'string'
+      && typeof localPrefix.pathname === 'string'
+      && urlObj.pathname.indexOf(localPrefix.pathname) === 0) {
+      filename = urlObj.pathname.substr(localPrefix.pathname.length);
+    }
+
+    filename = path.posix.join(outputPath || '', filename)
+
+    try {
+      let stat = mfs.statSync(filename);
+
+      if (!stat.isFile()) {
+        if (stat.isDirectory()) {
+          let { index } = ops;
+
+          // eslint-disable-next-line no-undefined
+          if (index === undefined) {
+            index = 'index.html'
+          } else if (!index) {
+            throw new Error('next')
+          }
+
+          filename = path.posix.join(filename, index);
+          stat = mfs.statSync(filename);
+
+          if (!stat.isFile()) {
+            throw new Error('next')
+          }
+        } else {
+          throw new Error('next')
+        }
+      }
+    } catch (e) {
+      console.log(e)
+    }
+
+    let contentType = mime.getType(filename) || ''
+
+    if (!NonCharsetFileTypes.test(filename)) {
+      contentType += '; charset=UTF-8'
+    }
+
+    ctx.response.type = contentType
+    if (!ctx.response.type) {
+      ctx.response.type = contentType
+    }
+
+    let content = mfs.readFileSync(filename)
+
+    ctx.body = content
+    next()
   }
   
-
-  return Object.assign(middleware, {
-    devMiddleware
-  })
+  return middleware
 }
 
 export default wdm
