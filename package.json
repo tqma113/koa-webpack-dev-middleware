@@ -1,5 +1,5 @@
 {
-  "name": "koa-webpack-dev-middleware-typescript",
+  "name": "koa-wdm",
   "version": "1.0.0",
   "description": "Webpack dev middleware for koa2.x with typescript. ",
   "main": "index.js",
@@ -27,8 +27,13 @@
   "devDependencies": {
     "@types/koa": "^2.0.50",
     "@types/node": "^12.7.9",
+    "@types/webpack": "^4.39.2",
+    "@types/webpack-dev-middleware": "^2.0.3",
     "tslint-config-prettier": "^1.18.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "webpack-dev-middleware": "^3.7.2"
   }
 }
