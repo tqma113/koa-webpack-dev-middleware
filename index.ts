@@ -39,8 +39,11 @@ const wdm = async (compiler: webpack.Compiler, ops?: WebpackDevMiddleware.Option
 
     return Promise.all([ready, init]);
   }
+  
 
-  return middleware
+  return Object.assign(middleware, {
+    devMiddleware
+  })
 }
 
 export default wdm
