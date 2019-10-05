@@ -85,7 +85,7 @@
     //   "node_modules/@types"
     // ]
   },
-  "files": [
-    "index.ts"
+  "include": [
+    "lib"
   ]
 }

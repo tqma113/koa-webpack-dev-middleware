@@ -2,7 +2,7 @@ import webpack from 'webpack'
 import Koa from 'koa'
 
 import webpackConfig from './webpack.config'
-import getMiddleware from '../index'
+import getMiddleware from '../lib/index'
 
 const app = new Koa()
 
