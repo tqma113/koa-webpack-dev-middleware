@@ -6,12 +6,14 @@ import {
   getFilenameFromUrl,
   readFileFromMemory,
   setHeaders,
-  setupHooks
+  setupHooks,
+  Out
 } from './utils'
 
 export interface Options {
   index?: string
   stats?: webpack.Stats.ToJsonOptions
+  log?: Out
 }
 
 const wrapper = (compiler: webpack.Compiler, ops: Options = {}) => {
@@ -19,11 +21,11 @@ const wrapper = (compiler: webpack.Compiler, ops: Options = {}) => {
 
   compiler.outputFileSystem = mfs
 
+  setupHooks(compiler, ops)
+
   const watching = compiler.watch({ aggregateTimeout: 200 }, (err, stats) => {
     console.log(err)
   })
-
-  setupHooks(compiler, ops)
 
   const middleware: Koa.Middleware = async (ctx, next) => {
     const filename = getFilenameFromUrl(compiler, ctx.request.url)

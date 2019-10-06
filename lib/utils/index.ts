@@ -7,3 +7,5 @@ export { default as setHeaders } from './setHeaders'
 export { default as reporter } from './reporter'
 
 export { default as setupHooks } from './setUpHooks'
+
+export { default as Logger, Out } from './logger'

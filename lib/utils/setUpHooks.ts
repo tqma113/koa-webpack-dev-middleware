@@ -1,15 +1,19 @@
 import webpack from 'webpack'
 import reporter from './reporter';
 import { Options } from '../index';
+import Logger,{ Out } from './logger'
 
 export type Callback = (...args: any[]) => any
 
 let state = false
 
 const setupHooks = (compiler: webpack.Compiler, options: Options) => {
+  let log: Out
+
   const invalid: Callback = (callback) => {
     if (state) {
       reporter(options, {
+        log,
         state: false
       });
     }
@@ -26,11 +30,19 @@ const setupHooks = (compiler: webpack.Compiler, options: Options) => {
       if (state) {
         reporter(options, {
           state: true,
+          log,
           stats
         })
       }
     })
   }
+
+  if (options.log) {
+    log = options.log
+  } else {
+    log = new Logger()
+  }
+
 
   compiler.hooks.done.tap('WebpckDevMiddleware', done)
   compiler.hooks.invalid.tap('WebpackDevMiddleware', invalid);
@@ -41,7 +53,7 @@ const setupHooks = (compiler: webpack.Compiler, options: Options) => {
     (comp, callback) => {
       invalid(callback);
     }
-  );
+  )
 }
 
 export default setupHooks
