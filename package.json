@@ -6,7 +6,7 @@
   "typings": "index.d.ts",
   "scripts": {
     "start": "npm run dev",
-    "dev": "nodemon",
+    "dev": "ts-node example/app.ts",
     "build": "tsc"
   },
   "files": [

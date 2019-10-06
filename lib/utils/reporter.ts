@@ -1,11 +1,9 @@
 import webpack from 'webpack'
 import { Options } from '../index'
-import { Logger } from 'loglevel'
 
 interface ReporterOptions {
-  state: boolean;
-  stats?: webpack.Stats;
-  log: Logger;
+  state: boolean
+  stats?: webpack.Stats
 }
 
 export type Reporter = (
@@ -14,7 +12,8 @@ export type Reporter = (
 ) => void
 
 const reporter: Reporter = (middlewareOptions, options) => {
-	const { log, state, stats } = options
+  const { state, stats } = options
+  const log = console
 	if (state) {
 		const displayStats = middlewareOptions.stats !== undefined
 		const statsString = stats ? stats.toString(middlewareOptions.stats) : ''

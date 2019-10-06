@@ -5,7 +5,8 @@ import MemoryFS from 'memory-fs'
 import {
   getFilenameFromUrl,
   readFileFromMemory,
-  setHeaders
+  setHeaders,
+  setupHooks
 } from './utils'
 
 export interface Options {
@@ -18,9 +19,11 @@ const wrapper = (compiler: webpack.Compiler, ops: Options = {}) => {
 
   compiler.outputFileSystem = mfs
 
-  const watching = compiler.watch({}, (err, stats) => {
+  const watching = compiler.watch({ aggregateTimeout: 200 }, (err, stats) => {
     console.log(err)
   })
+
+  setupHooks(compiler, ops)
 
   const middleware: Koa.Middleware = async (ctx, next) => {
     const filename = getFilenameFromUrl(compiler, ctx.request.url)
