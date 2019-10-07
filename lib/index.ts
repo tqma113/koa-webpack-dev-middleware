@@ -21,7 +21,7 @@ const wrapper = (compiler: webpack.Compiler, ops: Options = {}) => {
 
   compiler.outputFileSystem = mfs
 
-  // setupHooks(compiler, ops)
+  setupHooks(compiler, ops)
 
   const watching = compiler.watch({ aggregateTimeout: 200 }, (err, stats) => {
     console.log(err)

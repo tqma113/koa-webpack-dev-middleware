@@ -36,25 +36,25 @@ export interface Symbols {
 export type Style = keyof StylesType<any>
 
 export interface StyleConfig {
-  trace: Style | [Style, Style]
-  debug: Style | [Style, Style]
-  info: Style | [Style, Style]
-  warn: Style | [Style, Style]
-  error: Style | [Style, Style]
+  trace: Style | [Style, Style] | undefined
+  debug: Style | [Style, Style] | undefined
+  info: Style | [Style, Style] | undefined
+  warn: Style | [Style, Style] | undefined
+  error: Style | [Style, Style] | undefined
 }
 
 const defaultSymbols: Symbols = {
-  trace: '₸',
-  debug: '➤',
-  info: colors.symbols.info,
-  warn: colors.symbols.warning,
-  error: colors.symbols.cross,
+  trace: colors.grey('₸'),
+  debug: colors.cyan('➤'),
+  info: colors.blue(colors.symbols.info),
+  warn: colors.yellow(colors.symbols.warning),
+  error: colors.red(colors.symbols.cross)
 };
 
 const defaultStyleConfig: StyleConfig = {
   trace: 'grey',
   debug: 'cyan',
-  info: 'blue',
+  info: undefined,
   warn: 'yellow',
   error: 'red'
 }
@@ -124,10 +124,14 @@ class Logger {
   }
 
   private composite(level: Level, message: any) {
-    if (typeof this.styleConfig[level] === 'string') {
-      return colors[this.styleConfig[level] as Style](this.symbols[level] + this.interpolate() + message)
+    const styleType = this.styleConfig[level]
+    const symbol = this.symbols[level]
+    if (typeof styleType === 'string') {
+      return colors[styleType](symbol + this.interpolate() + message)
+    } else if (typeof styleType !== 'undefined') {
+      return colors[styleType[0]][styleType[1]](symbol + this.interpolate() + message)
     } else {
-      return colors[this.styleConfig[level][0] as Style][this.styleConfig[level][1] as Style](this.symbols[level] + this.interpolate() + message)
+      return symbol + this.interpolate() + message
     }
   }
 }

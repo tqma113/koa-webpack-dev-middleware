@@ -78,12 +78,12 @@
     // "suppressExcessPropertyErrors": false, // 阻止对对象字面量的额外属性检查
     // "suppressImplicitAnyIndexErrors": false, // 阻止 --noImplicitAny对缺少索引签名的索引对象报错
     "target": "es5", // 指定ECMAScript目标版本
-    "traceResolution": true // 生成模块解析日志信息
+    "traceResolution": true, // 生成模块解析日志信息
     // "tsBuildInfoFile": ".tsbuildinfo", // Specify what file to store incremental build information in.
     // "types": [], // List of names of type definitions to include
-    // "typeRoots": [ // 要包含的类型声明文件路径列表
-    //   "node_modules/@types"
-    // ]
+    "typeRoots": [ // 要包含的类型声明文件路径列表
+      "node_modules/@types"
+    ]
   },
   "include": [
     "lib"

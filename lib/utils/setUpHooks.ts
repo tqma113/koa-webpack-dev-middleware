@@ -42,7 +42,7 @@ const setupHooks = (compiler: webpack.Compiler, options: Options) => {
   if (options.log) {
     log = options.log
   } else {
-    log = new Logger('WebpackDevMiddleware')
+    log = new Logger('wdm')
   }
 
   state = true
