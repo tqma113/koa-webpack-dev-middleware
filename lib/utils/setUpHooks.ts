@@ -18,7 +18,7 @@ const setupHooks = (compiler: webpack.Compiler, options: Options) => {
       });
     }
 
-    state = false
+    // state = false
 
     if (typeof callback === 'function') {
       callback()
@@ -26,6 +26,8 @@ const setupHooks = (compiler: webpack.Compiler, options: Options) => {
   }
 
   const done = (stats: webpack.Stats) => {
+    state = true
+
     process.nextTick(() => {
       if (state) {
         reporter(options, {
@@ -40,11 +42,11 @@ const setupHooks = (compiler: webpack.Compiler, options: Options) => {
   if (options.log) {
     log = options.log
   } else {
-    log = new Logger()
+    log = new Logger('WebpackDevMiddleware')
   }
 
+  state = true
 
-  compiler.hooks.done.tap('WebpckDevMiddleware', done)
   compiler.hooks.invalid.tap('WebpackDevMiddleware', invalid);
   compiler.hooks.run.tap('WebpackDevMiddleware', invalid);
   compiler.hooks.done.tap('WebpackDevMiddleware', done);

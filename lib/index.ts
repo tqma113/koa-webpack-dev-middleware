@@ -21,23 +21,23 @@ const wrapper = (compiler: webpack.Compiler, ops: Options = {}) => {
 
   compiler.outputFileSystem = mfs
 
-  setupHooks(compiler, ops)
+  // setupHooks(compiler, ops)
 
   const watching = compiler.watch({ aggregateTimeout: 200 }, (err, stats) => {
     console.log(err)
   })
 
   const middleware: Koa.Middleware = async (ctx, next) => {
-    const filename = getFilenameFromUrl(compiler, ctx.request.url)
-    const file = readFileFromMemory(mfs, filename, ops.index)
+    // const filename = getFilenameFromUrl(compiler, ctx.request.url)
+    // const file = readFileFromMemory(mfs, filename, ops.index)
 
-    // if file is exist set headers and body
-    if (file) {
-      let { filename, content } = file
-      content = setHeaders(ctx, filename, content)
+    // // if file is exist set headers and body
+    // if (file) {
+    //   let { filename, content } = file
+    //   content = setHeaders(ctx, filename, content)
 
-      ctx.body = content
-    }
+    //   ctx.body = content
+    // }
     await next()
   }
 

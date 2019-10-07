@@ -76,7 +76,12 @@ class Logger {
   private template: string
   private symbols: Symbols
   private styleConfig: StyleConfig
-  constructor(options?: LoggerProps) {
+  constructor(options: LoggerProps | string) {
+    if (typeof options === 'string') {
+      options = {
+        name: options
+      }
+    }
     options = Object.assign({}, defaults, options)
     
     this.name = options.name || 'unknown'
