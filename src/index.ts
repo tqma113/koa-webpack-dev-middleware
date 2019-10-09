@@ -12,13 +12,24 @@ import {
   getLogger
 } from './utils'
 
-export interface Options {
+export interface KoaWDMOptions {
   index?: string
   stats?: webpack.Stats.ToJsonOptions
-  log?: Out
+  log?: Out,
+  displayStats?: boolean,
+  context?: string,
+  colors?: boolean
 }
 
-const wrapper = (compiler: webpack.Compiler, ops: Options = {}) => {
+const defaults: KoaWDMOptions = {
+  displayStats: true,
+  context: process.cwd(),
+  colors: true
+}
+
+const wrapper = (compiler: webpack.Compiler, ops: KoaWDMOptions = {}) => {
+  ops = Object.assign({}, defaults, ops)
+
   const mfs = new MemoryFS()
   compiler.outputFileSystem = mfs
 

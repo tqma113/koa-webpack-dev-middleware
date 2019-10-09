@@ -6,6 +6,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 const config: webpack.Configuration = {
   mode: 'development',
   entry: path.resolve(__dirname, './src/index.tsx'),
+  context: __dirname,
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js'

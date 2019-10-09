@@ -1,7 +1,7 @@
 import webpack from 'webpack'
 
 import { Out } from './logger';
-import { Options } from '../index'
+import { KoaWDMOptions } from '../index'
 
 interface ReporterOptions {
 	log: Out
@@ -9,17 +9,20 @@ interface ReporterOptions {
 }
 
 export type Reporter = (
-	middlewareOptions: Options,
+	middlewareOptions: KoaWDMOptions,
 	options: ReporterOptions
 ) => void
 
 const reporter: Reporter = (middlewareOptions, options) => {
   const { log, stats } = options
-	if (stats) {
-		const displayStats = middlewareOptions.stats !== undefined
-		const statsString = stats.toString(middlewareOptions.stats)
-
-		if (displayStats && statsString.trim().length) {
+	if (typeof stats !== 'undefined') {
+		const statsConfig: webpack.Stats.ToStringOptionsObject = {
+			context: middlewareOptions.context,
+			colors: middlewareOptions.colors
+		}
+		const statsString = stats.toString(statsConfig)
+		
+		if (middlewareOptions.displayStats && statsString.trim().length) {
 			if (stats && stats.hasErrors()) {
 				log.error(statsString)
 			} else if (stats && stats.hasWarnings()) {

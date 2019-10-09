@@ -1,9 +1,9 @@
-import { Options } from '../index';
+import { KoaWDMOptions } from '../index';
 import Logger from './logger';
 
 const defaultLog = new Logger('wdm')
 
-const getLogger = (options: Options) => {
+const getLogger = (options: KoaWDMOptions) => {
   return options.log || defaultLog
 }
 
