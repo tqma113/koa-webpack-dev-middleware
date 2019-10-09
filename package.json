@@ -1,6 +1,6 @@
 {
   "name": "koa-wdm",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Webpack dev middleware for koa2.x with typescript. ",
   "main": "index.js",
   "typings": "index.d.ts",
@@ -11,7 +11,8 @@
   },
   "files": [
     "index.js",
-    "index.d.ts"
+    "index.d.ts",
+    "lib"
   ],
   "repository": {
     "type": "git",
