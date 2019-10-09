@@ -68,7 +68,7 @@
     // "rootDirs": [], // 根（root）文件夹列表，表示运行时组合工程结构的内容
     // "skipDefaultLibCheck": false, // 忽略 库的默认声明文件的类型检查
     // "skipLibCheck": false, // 忽略所有的声明文件（ *.d.ts）的类型检查
-    "sourceMap": true, // 生成相应的 .map文件
+    // "sourceMap": true, // 生成相应的 .map文件
     "sourceRoot": "", // 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到 sourceMap里。
     "strict": true, // 启用所有严格类型检查选项。启用 --strict相当于启用 --noImplicitAny, --noImplicitThis, --alwaysStrict， --strictNullChecks和 --strictFunctionTypes和--strictPropertyInitialization
     // "strictBindCallApply": false, // Enable stricter checking of the bind, call, and apply methods on functions
