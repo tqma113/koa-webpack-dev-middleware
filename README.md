@@ -22,7 +22,7 @@ yarn:
 yarn add -D koa-wdm
 ```
 
-## Useage
+## Usage
 
 ```js
 import Koa from 'koa'
