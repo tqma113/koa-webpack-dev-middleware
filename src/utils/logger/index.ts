@@ -92,24 +92,23 @@ class Logger {
   }
 
   trace(message: any) {
-    message = 
-    console.trace(this.composite('trace', message))
+    this.out.trace(this.composite('trace', message))
   }
 
   debug(message: any) {
-    console.debug(this.composite('debug', message))
+    this.out.debug(this.composite('debug', message))
   }
 
   info(message: any) {
-    console.info(this.composite('info', message))
+    this.out.info(this.composite('info', message))
   }
 
   warn(message: any) {
-    console.warn(this.composite('warn', message))
+    this.out.warn(this.composite('warn', message))
   }
 
   error(message: any) {
-    console.error(this.composite('error', message))
+    this.out.error(this.composite('error', message))
   }
 
   private interpolate() {
@@ -120,7 +119,7 @@ class Logger {
   
       return stache;
     }
-    return template.replace(/{{([^{}]*)}}/g, replacer);
+    return this.template.replace(/{{([^{}]*)}}/g, replacer);
   }
 
   private composite(level: Level, message: any) {

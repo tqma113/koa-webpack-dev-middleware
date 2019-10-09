@@ -7,7 +7,9 @@ import {
   readFileFromMemory,
   setHeaders,
   setupHooks,
-  Out
+  Out,
+  reporter,
+  getLogger
 } from './utils'
 
 export interface Options {
@@ -18,26 +20,34 @@ export interface Options {
 
 const wrapper = (compiler: webpack.Compiler, ops: Options = {}) => {
   const mfs = new MemoryFS()
-
   compiler.outputFileSystem = mfs
+
+  const log = getLogger(ops)
 
   setupHooks(compiler, ops)
 
-  const watching = compiler.watch({ aggregateTimeout: 200 }, (err, stats) => {
-    console.log(err)
+  compiler.watch({ aggregateTimeout: 200 }, (err, stats) => {
+    if (err) {
+      log.error(err.stack || err)
+    }
+
+    reporter(ops, {
+      log,
+      stats
+    })
   })
 
   const middleware: Koa.Middleware = async (ctx, next) => {
-    // const filename = getFilenameFromUrl(compiler, ctx.request.url)
-    // const file = readFileFromMemory(mfs, filename, ops.index)
+    const filename = getFilenameFromUrl(compiler, ctx.request.url)
+    const file = readFileFromMemory(mfs, filename, ops.index)
 
-    // // if file is exist set headers and body
-    // if (file) {
-    //   let { filename, content } = file
-    //   content = setHeaders(ctx, filename, content)
+    // if file is exist set headers and body
+    if (file) {
+      let { filename, content } = file
+      content = setHeaders(ctx, filename, content)
 
-    //   ctx.body = content
-    // }
+      ctx.body = content
+    }
     await next()
   }
 

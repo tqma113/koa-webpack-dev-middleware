@@ -2,7 +2,7 @@
   "compilerOptions": {
     // "allowJs": false, // 允许编译javascript文件
     "allowSyntheticDefaultImports": true, // 允许从没有设置默认导出的模块中默认导入。这并不影响代码的输出，仅为了类型检查
-    // "allowUmdGlobalAccess": false, // 允许从模块访问UMD全局变量
+    "allowUmdGlobalAccess": true, // 允许从模块访问UMD全局变量
     // "allowUnreachableCode": false, // 不报告执行不到的代码错误。
     // "allowUnusedLabels": false, // 不报告未使用的标签错误
     // "alwaysStrict": true, // 以严格模式解析并为每个源文件生成 "use strict"语句
@@ -52,8 +52,8 @@
     // "noLib": false, // 不包含默认的库文件
     // "noResolve": false, // 不把 /// <reference``>或模块导入的文件加到编译文件列表
     // "noStrictGenericChecks": false, // 禁用在函数类型里对泛型签名进行严格检查
-    // "noUnusedLocals": true, // 若有未使用的局部变量则抛错
-    // "noUnusedParameters":true, // 若有未使用的参数则抛错
+    "noUnusedLocals": true, // 若有未使用的局部变量则抛错
+    "noUnusedParameters":true, // 若有未使用的参数则抛错
     // "outDir": "dist/lib", // 重定向输出目录
     // "outFile": "", // 将输出文件合并为一个文件。合并的顺序是根据传入编译器的文件顺序和 ///<reference``>和 import的文件顺序决定的。查看输出文件顺序文件了解详情
     // "paths": {}, // 模块名到基于 baseUrl的路径映射的列表
@@ -62,13 +62,13 @@
     // "preserveWatchOutput": false, // 保留watch模式下过时的控制台输出
     // "pretty": true, // Stylize errors and messages using color and context
     // "reactNamespace": "React", // 当目标为生成 "react" JSX时，指定 createElement和 __spread的调用对象
-    // "removeComments": false, // 删除所有注释，除了以 /!*开头的版权信息
+    "removeComments": false, // 删除所有注释，除了以 /!*开头的版权信息
     "resolveJsonModule": true, // Include modules imported with .json extension
     // "rootDir": "", // 仅用来控制输出的目录结构 --outDir
     // "rootDirs": [], // 根（root）文件夹列表，表示运行时组合工程结构的内容
     // "skipDefaultLibCheck": false, // 忽略 库的默认声明文件的类型检查
     // "skipLibCheck": false, // 忽略所有的声明文件（ *.d.ts）的类型检查
-    // "sourceMap": true, // 生成相应的 .map文件
+    "sourceMap": true, // 生成相应的 .map文件
     "sourceRoot": "", // 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到 sourceMap里。
     "strict": true, // 启用所有严格类型检查选项。启用 --strict相当于启用 --noImplicitAny, --noImplicitThis, --alwaysStrict， --strictNullChecks和 --strictFunctionTypes和--strictPropertyInitialization
     // "strictBindCallApply": false, // Enable stricter checking of the bind, call, and apply methods on functions
@@ -80,12 +80,12 @@
     "target": "es5", // 指定ECMAScript目标版本
     "traceResolution": true, // 生成模块解析日志信息
     // "tsBuildInfoFile": ".tsbuildinfo", // Specify what file to store incremental build information in.
-    // "types": [], // List of names of type definitions to include
+    "types": [], // List of names of type definitions to include
     "typeRoots": [ // 要包含的类型声明文件路径列表
       "node_modules/@types"
     ]
   },
-  "include": [
-    "lib"
-  ]
+  // "include": [
+  //   "src"
+  // ]
 }

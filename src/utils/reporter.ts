@@ -4,7 +4,6 @@ import { Out } from './logger';
 import { Options } from '../index'
 
 interface ReporterOptions {
-	state: boolean
 	log: Out
   stats?: webpack.Stats
 }
@@ -15,10 +14,10 @@ export type Reporter = (
 ) => void
 
 const reporter: Reporter = (middlewareOptions, options) => {
-  const { state, log, stats } = options
-	if (state) {
+  const { log, stats } = options
+	if (stats) {
 		const displayStats = middlewareOptions.stats !== undefined
-		const statsString = stats ? stats.toString(middlewareOptions.stats) : ''
+		const statsString = stats.toString(middlewareOptions.stats)
 
 		if (displayStats && statsString.trim().length) {
 			if (stats && stats.hasErrors()) {

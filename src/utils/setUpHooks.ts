@@ -3,20 +3,17 @@ import reporter from './reporter';
 import { Options } from '../index';
 import Logger,{ Out } from './logger'
 
-export type Callback = (...args: any[]) => any
-
-let state = false
-
 const setupHooks = (compiler: webpack.Compiler, options: Options) => {
   let log: Out
 
-  const invalid: Callback = (callback) => {
-    if (state) {
-      reporter(options, {
-        log,
-        state: false
-      });
-    }
+  const invalid = (a: string, b: Date) => {
+    console.log(a, b)
+  }
+
+  const run = (compiler: webpack.Compiler, callback: CallableFunction) => {
+    reporter(options, {
+      log
+    });
 
     // state = false
 
@@ -26,16 +23,12 @@ const setupHooks = (compiler: webpack.Compiler, options: Options) => {
   }
 
   const done = (stats: webpack.Stats) => {
-    state = true
 
     process.nextTick(() => {
-      if (state) {
-        reporter(options, {
-          state: true,
-          log,
-          stats
-        })
-      }
+      reporter(options, {
+        log,
+        stats
+      })
     })
   }
 
@@ -45,17 +38,15 @@ const setupHooks = (compiler: webpack.Compiler, options: Options) => {
     log = new Logger('wdm')
   }
 
-  state = true
-
   compiler.hooks.invalid.tap('WebpackDevMiddleware', invalid);
-  compiler.hooks.run.tap('WebpackDevMiddleware', invalid);
+  compiler.hooks.run.tap('WebpackDevMiddleware', run);
   compiler.hooks.done.tap('WebpackDevMiddleware', done);
   compiler.hooks.watchRun.tap(
     'WebpackDevMiddleware',
-    (comp, callback) => {
-      invalid(callback);
-    }
+    run
   )
+
+  return log
 }
 
 export default setupHooks
