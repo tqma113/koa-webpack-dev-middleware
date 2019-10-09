@@ -1,7 +1,7 @@
 import path from 'path'
 import MemoryFS from 'memory-fs'
 
-const readFileFromMemory = (mfs: MemoryFS, filename: string, index: string = 'index.html') => {
+const readFileFromMemory = (mfs: MemoryFS, filename: string, index: string) => {
   try {
     let stat = mfs.statSync(filename);
 

@@ -16,11 +16,7 @@ export type Reporter = (
 const reporter: Reporter = (middlewareOptions, options) => {
   const { log, stats } = options
 	if (typeof stats !== 'undefined') {
-		const statsConfig: webpack.Stats.ToStringOptionsObject = {
-			context: middlewareOptions.context,
-			colors: middlewareOptions.colors
-		}
-		const statsString = stats.toString(statsConfig)
+		const statsString = stats.toString(middlewareOptions.stats)
 		
 		if (middlewareOptions.displayStats && statsString.trim().length) {
 			if (stats && stats.hasErrors()) {

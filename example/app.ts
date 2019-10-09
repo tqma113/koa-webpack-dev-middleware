@@ -1,5 +1,5 @@
-import webpack from 'webpack'
 import Koa from 'koa'
+import webpack from 'webpack'
 
 import webpackConfig from './webpack.config'
 import getMiddleware from '../src/index'

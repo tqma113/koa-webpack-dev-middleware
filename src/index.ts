@@ -9,40 +9,44 @@ import {
   setupHooks,
   Out,
   reporter,
-  getLogger
+  Logger
 } from './utils'
 
+// TODO Support write to disk
+// TODO Support HMR(hot module replace)
 export interface KoaWDMOptions {
   index?: string
-  stats?: webpack.Stats.ToJsonOptions
   log?: Out,
   displayStats?: boolean,
-  context?: string,
-  colors?: boolean
+  stats?: webpack.Stats.ToStringOptionsObject
 }
 
-const defaults: KoaWDMOptions = {
+const defaults = {
   displayStats: true,
-  context: process.cwd(),
-  colors: true
+  index: 'index.html',
+  log: new Logger('wdm'),
+  stats: {
+    context: process.cwd(),
+    colors: true,
+  }
 }
 
 const wrapper = (compiler: webpack.Compiler, ops: KoaWDMOptions = {}) => {
-  ops = Object.assign({}, defaults, ops)
+  const options = Object.assign({}, defaults, ops)
 
   const mfs = new MemoryFS()
   compiler.outputFileSystem = mfs
 
-  const log = getLogger(ops)
+  const { log } = options
 
-  setupHooks(compiler, ops)
+  setupHooks(compiler, options)
 
   compiler.watch({ aggregateTimeout: 200 }, (err, stats) => {
     if (err) {
       log.error(err.stack || err)
     }
 
-    reporter(ops, {
+    reporter(options, {
       log,
       stats
     })
@@ -50,7 +54,7 @@ const wrapper = (compiler: webpack.Compiler, ops: KoaWDMOptions = {}) => {
 
   const middleware: Koa.Middleware = async (ctx, next) => {
     const filename = getFilenameFromUrl(compiler, ctx.request.url)
-    const file = readFileFromMemory(mfs, filename, ops.index)
+    const file = readFileFromMemory(mfs, filename, options.index)
 
     // if file is exist set headers and body
     if (file) {
