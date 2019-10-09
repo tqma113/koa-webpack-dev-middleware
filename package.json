@@ -7,7 +7,8 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "nodemon",
-    "build": "tsc"
+    "build": "tsc",
+    "prebuild": "rimraf lib"
   },
   "files": [
     "index.js",
