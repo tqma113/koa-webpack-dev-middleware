@@ -54,7 +54,7 @@
     // "noStrictGenericChecks": false, // 禁用在函数类型里对泛型签名进行严格检查
     "noUnusedLocals": true, // 若有未使用的局部变量则抛错
     "noUnusedParameters":true, // 若有未使用的参数则抛错
-    // "outDir": "dist/lib", // 重定向输出目录
+    "outDir": "lib", // 重定向输出目录
     // "outFile": "", // 将输出文件合并为一个文件。合并的顺序是根据传入编译器的文件顺序和 ///<reference``>和 import的文件顺序决定的。查看输出文件顺序文件了解详情
     // "paths": {}, // 模块名到基于 baseUrl的路径映射的列表
     "preserveConstEnums": true, // 保留 const和 enum声明
@@ -85,7 +85,7 @@
       "node_modules/@types"
     ]
   },
-  // "include": [
-  //   "src"
-  // ]
+  "include": [
+    "src"
+  ]
 }
